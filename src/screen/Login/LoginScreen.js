@@ -5,6 +5,8 @@ import Button from '../../components/Button';
 import TextInput from '../../components/TextInput';
 import { emailValidator, passwordValidator } from '../../core/utils';
 import { CommonActions } from '@react-navigation/native';
+import localLabelStorage from '../../core/localLabelStorage';
+import axios from 'axios';
 
 const LoginScreen = ({navigation}) => {
   const [email, setEmail] = useState({ value: '', error: '' });
@@ -55,9 +57,10 @@ const LoginScreen = ({navigation}) => {
         errorText={password.error}
         secureTextEntry
       />
-        <Button mode="contained" onPress={_onLoginPressed}>
-          Login
-        </Button>
+
+      <Button mode="contained" onPress={_onLoginPressed}>
+        Login
+      </Button>
     </Background>
   )
 }
