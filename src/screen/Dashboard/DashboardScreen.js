@@ -6,19 +6,20 @@ import { Avatar, Button, Card, Title, Paragraph } from 'react-native-paper';
 import CustomCard from '../../components/CustomCard';
 
 
-const DashboardScreen = () => {
+const DashboardScreen = ({navigation}) => {
   var numbro = require("numbro");
   const LeftContent = props => <Avatar.Icon {...props} icon="folder" />
   return (
     <Background>
       <ScrollView style = {styles.scrollView}>
-          <CustomCard stylesCard={styles.cardContainer}/>
-          <CustomCard stylesCard={styles.cardContainer}/>
-          <CustomCard stylesCard={styles.cardContainer}/>
-          <CustomCard stylesCard={styles.cardContainer}/>
-          <CustomCard stylesCard={styles.cardContainer}/>
-          <CustomCard stylesCard={styles.cardContainer}/>
-          <CustomCard stylesCard={styles.cardContainer}/>
+          <CustomCard stylesCard={styles.cardContainer} navigation={navigation}/>
+          <CustomCard stylesCard={styles.cardContainer} navigation={navigation}/>
+          <CustomCard stylesCard={styles.cardContainer} navigation={navigation}/>
+          <CustomCard stylesCard={styles.cardContainer} navigation={navigation}/>
+          <CustomCard stylesCard={styles.cardContainer} navigation={navigation}/>
+          <CustomCard stylesCard={styles.cardContainer} navigation={navigation}/>
+          <CustomCard stylesCard={styles.cardContainer} navigation={navigation}/>
+          <CustomCard stylesCard={styles.cardContainer} navigation={navigation}/>
       </ScrollView>
     </Background>
   )

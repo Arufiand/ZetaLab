@@ -51,7 +51,7 @@ const LoginScreen = ({navigation}) => {
         CommonActions.reset({
           index: 0,
           routes: [
-            { name: 'Dashboard' }
+            { name: 'DashboardWithTabs' }
           ],
         })
       );

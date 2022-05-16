@@ -3,15 +3,15 @@ import React from 'react'
 import Background from '../../components/Background' ;
 import Button from '../../components/Button';
 
-const HomeScreen = ({ navigation }) => {
+const ProfileScreen = ({ navigation }) => {
   return (
     <Background>
-      <Text>Home</Text>
-        <Button mode="contained" onPress={() => navigation.navigate('Login')}>
+      <Text>Profile</Text>
+        {/* <Button mode="contained" onPress={() => navigation.navigate('Login')}>
           Login
-        </Button>
+        </Button> */}
     </Background>
   )
 }
 
-export default HomeScreen
+export default ProfileScreen
