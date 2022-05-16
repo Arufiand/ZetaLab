@@ -7,10 +7,13 @@ import { emailValidator, passwordValidator } from '../../core/utils';
 import { CommonActions } from '@react-navigation/native';
 import localLabelStorage from '../../core/localLabelStorage';
 import axios from 'axios';
+import endpoint from '../../core/endpoint';
 
 const LoginScreen = ({navigation}) => {
-  const [email, setEmail] = useState({ value: '', error: '' });
-  const [password, setPassword] = useState({ value: '', error: '' });
+  const ep = new endpoint();
+
+  const [email, setEmail] = useState({ value: 'dev@ortegacapital.com', error: '' });
+  const [password, setPassword] = useState({ value: 'DevTest123', error: '' });
 
   const _onLoginPressed = () => {
     const emailError = emailValidator(email.value);
@@ -22,14 +25,38 @@ const LoginScreen = ({navigation}) => {
       return;
     }
 
-    navigation.dispatch(
-      CommonActions.reset({
-        index: 0,
-        routes: [
-          { name: 'Dashboard' }
-        ],
-      })
-    );
+    var data = JSON.stringify({
+      "email": email.value,
+      "password": password.value
+    });
+    
+    var config = {
+      method: 'post',
+      url: ep.login(),
+      headers: { 
+        'Content-Type': 'application/json', 
+        'Cookie': 'sesh=tNElQKA8oAJJOnAfSIRmClkv7e2aHOom'
+      },
+      data : data
+    };
+
+    axios(config)
+    .then(function (response) {
+      console.log(JSON.stringify(response.data));
+    })
+    .catch(function (error) {
+      console.log(JSON.stringify(error,null,2));
+    }).finally(() => {
+      navigation.dispatch(
+        CommonActions.reset({
+          index: 0,
+          routes: [
+            { name: 'Dashboard' }
+          ],
+        })
+      );
+    })
+
   };
 
   return (
