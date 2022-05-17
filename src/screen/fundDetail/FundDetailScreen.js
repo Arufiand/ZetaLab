@@ -8,22 +8,27 @@ import axios from 'axios';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import localLabelStorage from '../../core/localLabelStorage';
 import endpoint from '../../core/endpoint';
-
-
+import Toast from 'react-native-toast-message';
 
 const FundDetailScreen = ({navigation,route}) => {
   const ep = new endpoint();
   const [fundDetail, setFundDetail] = useState([]);
-  var numbro = require("numbro");
+  const showToast = () => {
+    Toast.show({
+      type: 'info',
+      text1: 'Swipe the card',
+      text2: 'Swipe to see the details!👋'
+    });
+  }
 
   useEffect(() => {
     getFundDetail();
+    showToast();
     return () => {
       console.log(`cleaner`);
       // setFundDetail([]);
     }
   }, [route])
-  
 
   const getFundDetail = async() => {
     let token = await AsyncStorage.getItem(localLabelStorage.token);

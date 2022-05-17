@@ -131,7 +131,6 @@ const CustomCard = ({stylesCard, navigation, detailView,data}) => {
     );
   };
   return (
-    
       <View>
         {detailView ?
           <GestureFlipView width={300} height={500}>
