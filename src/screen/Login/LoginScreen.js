@@ -8,6 +8,7 @@ import { CommonActions } from '@react-navigation/native';
 import localLabelStorage from '../../core/localLabelStorage';
 import axios from 'axios';
 import endpoint from '../../core/endpoint';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 
 const LoginScreen = ({navigation}) => {
   const ep = new endpoint();
@@ -41,20 +42,25 @@ const LoginScreen = ({navigation}) => {
     };
 
     axios(config)
-    .then(function (response) {
-      console.log(JSON.stringify(response.data));
+    .then(async response => {
+      // console.log(JSON.stringify(response.data.data.token, null, 2));
+      try {
+        await AsyncStorage.setItem(localLabelStorage.token, response.data.data.token.access_token)
+        navigation.dispatch(
+          CommonActions.reset({
+            index: 0,
+            routes: [
+              { name: 'DashboardWithTabs' }
+            ],
+          })
+        );
+      } catch (e) {
+        console.log(`Error on Saving to AsyncStorage ${JSON.stringify(e, null, 2)}`)
+      }
+      
     })
     .catch(function (error) {
-      console.log(JSON.stringify(error,null,2));
-    }).finally(() => {
-      navigation.dispatch(
-        CommonActions.reset({
-          index: 0,
-          routes: [
-            { name: 'DashboardWithTabs' }
-          ],
-        })
-      );
+      console.log(`Error while posting login ${JSON.stringify(error,null,2)}`);
     })
 
   };
