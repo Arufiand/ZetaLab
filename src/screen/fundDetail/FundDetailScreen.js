@@ -20,7 +20,7 @@ const FundDetailScreen = ({navigation,route}) => {
     getFundDetail();
     return () => {
       console.log(`cleaner`);
-      setFundDetail([]);
+      // setFundDetail([]);
     }
   }, [route])
   
@@ -43,9 +43,7 @@ const FundDetailScreen = ({navigation,route}) => {
       console.log(error);
     });
   }
-
-  useEffect
-
+  
   const LeftContent = props => <Avatar.Icon {...props} icon="folder" />
   return (
     <Background>
