@@ -1,9 +1,10 @@
-import { StyleSheet, Text, View,TouchableOpacity } from 'react-native'
+import { StyleSheet, Text, View,TouchableOpacity, ScrollView } from 'react-native'
 import React from 'react'
 import { Avatar, Button, Card, Title, Paragraph } from 'react-native-paper';
 import GestureFlipView from 'react-native-gesture-flip-card';
+import BarChart from './BarChart';
 
-const CustomCard = ({stylesCard, navigation, detailView,data}) => {
+const CustomCard = ({stylesCard, navigation, detailView,data, xAxis,yAxis}) => {
   
   var numbro = require("numbro");
   const LeftContent = props => <Avatar.Text {...props} icon="folder" />
@@ -93,9 +94,13 @@ const CustomCard = ({stylesCard, navigation, detailView,data}) => {
               <Card.Title title={data.model.name} subtitle={data.model.description} left={LeftContent} />
               <Card.Content>
                   <Title>Chart Bar</Title>
-                  <Paragraph>Card content</Paragraph>
+                  <ScrollView>
+                    <BarChart
+                      xAxis = {xAxis}
+                      yAxis = {yAxis}
+                    />
+                  </ScrollView>
               </Card.Content>
-              <Card.Cover source={{ uri: 'https://picsum.photos/700' }} />
               <Card.Actions>
                 <View style={{flexDirection:"row", flex : 1, justifyContent: "space-between"}}>
                   <View style ={{flexDirection:"column", marginRight:5}}>

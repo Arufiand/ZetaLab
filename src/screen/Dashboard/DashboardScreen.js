@@ -58,7 +58,7 @@ const DashboardScreen = ({navigation}) => {
             fundData.map(fund => {
               console.log(`fund per each ${JSON.stringify(fund.id, null,2)}`);
               return (
-                <CustomCard 
+                <CustomCard key={fund.id}
                   stylesCard={styles.cardContainer} 
                   navigation={navigation}
                   detailView={false}

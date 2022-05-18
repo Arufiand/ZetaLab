@@ -1,4 +1,4 @@
-import { View, Text, StyleSheet,ScrollView } from 'react-native'
+import { View, Text, StyleSheet,ScrollView, Dimensions,ActivityIndicator } from 'react-native'
 import React, {useEffect, useState} from 'react'
 import Background from '../../components/Background' ;
 import {Button as customButton }from '../../components/Button';
@@ -13,6 +13,10 @@ import Toast from 'react-native-toast-message';
 const FundDetailScreen = ({navigation,route}) => {
   const ep = new endpoint();
   const [fundDetail, setFundDetail] = useState([]);
+  const [loading, isLoading] = useState(true);
+  const [xAxis, setXAxis] = useState([]);
+  const [yAxis, setYAxis] = useState([]);
+
   const showToast = () => {
     Toast.show({
       type: 'info',
@@ -24,11 +28,20 @@ const FundDetailScreen = ({navigation,route}) => {
   useEffect(() => {
     getFundDetail();
     showToast();
-    return () => {
-      console.log(`cleaner`);
-      // setFundDetail([]);
-    }
-  }, [route])
+    // return () => {
+    //   console.log(`cleaner`);
+    //   // setFundDetail([]);
+    // }
+  }, [])
+
+  // useEffect(() => {
+  //   if (fundDetail.length == 0) {
+  //     isLoading(true);
+  //   }
+  //   else {
+  //     isLoading(false)
+  //   }
+  // },[loading == true])
 
   const getFundDetail = async() => {
     let token = await AsyncStorage.getItem(localLabelStorage.token);
@@ -41,8 +54,13 @@ const FundDetailScreen = ({navigation,route}) => {
     };
     axios(config)
     .then(function (response) {
-      console.log(JSON.stringify(response.data.data, null, 2));
+      // console.log(JSON.stringify(response.data.data, null, 2));
       setFundDetail(response.data.data);
+      response.data.data.model.statistic_data.map(x => {
+         setXAxis(prevState => ([...prevState, x.date]))
+         setYAxis(prevState => ([...prevState, parseInt(x.latest_price)]))
+      })
+      isLoading(false)
     })
     .catch(function (error) {
       console.log(error);
@@ -50,23 +68,34 @@ const FundDetailScreen = ({navigation,route}) => {
   }
   
   const LeftContent = props => <Avatar.Icon {...props} icon="folder" />
-  return (
-    <Background>
-          <CustomCard 
-            stylesCard={styles.cardContainer} 
-            navigation={navigation} 
-            detailView={true}
-            data={fundDetail}
-          />
-    </Background>
-  )
+  if(loading == true) {
+   return(
+    <View style={{flex: 1, padding: 20}}>
+      <ActivityIndicator/>
+    </View>
+   ) 
+  }
+  else {
+    return (
+      <Background>
+            <CustomCard 
+              stylesCard={styles.cardContainer} 
+              navigation={navigation} 
+              detailView={true}
+              data={fundDetail}
+              xAxis = {xAxis}
+              yAxis = {yAxis}
+            />
+      </Background>
+    )
+  }
 }
 const styles = StyleSheet.create({
   cardContainer: {
     // flex: 1,
-    width: 300,
+    width: (Dimensions.get('screen').width) - 50,
     marginBottom : 30,
-    height : 400
+    height : (Dimensions.get('window').height) - 50
   },
   scrollView : {
     width : '115%'
